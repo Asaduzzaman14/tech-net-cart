@@ -19,14 +19,20 @@ const cartSlice = createSlice({
       );
       if (isExist) {
         console.log(isExist);
-        isExist.quantity = isExist.quantity + 1;
+        isExist.quantity = isExist.quantity! + 1;
       } else {
         state.products.push({ ...action.payload, quantity: 1 });
       }
     },
+
+    removeFromCart: (state, action: PayloadAction<IProduct>) => {
+      state.products = state.products.filter(
+        (product) => product._id != action.payload._id
+      );
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
