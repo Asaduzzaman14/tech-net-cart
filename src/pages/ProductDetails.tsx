@@ -1,5 +1,7 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
+import { useGetProductsQuery } from '@/redux/api/apiSlice';
+import { useAppDispatch } from '@/redux/hooks';
 import { IProduct } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -8,14 +10,17 @@ export default function ProductDetails() {
   const { id } = useParams();
 
   //! Temporary code, should be replaced with redux
-  const [data, setData] = useState<IProduct[]>([]);
-  useEffect(() => {
-    fetch('../../public/data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  // const [data, setData] = useState<IProduct[]>([]);
+  // useEffect(() => {
+  //   fetch('../../public/data.json')
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data));
+  // }, []);
 
-  const product = data?.find((item) => item._id === Number(id));
+  const { data: product, isLoading, error } = useGetProductsQuery(id)
+
+
+  // const product = data?.find((item) => item._id === Number(id));
 
   //! Temporary code ends here
 
@@ -29,7 +34,7 @@ export default function ProductDetails() {
           <h1 className="text-3xl font-semibold">{product?.name}</h1>
           <p className="text-xl">Rating: {product?.rating}</p>
           <ul className="space-y-1 text-lg">
-            {product?.features?.map((feature) => (
+            {product?.features?.map((feature: string) => (
               <li key={feature}>{feature}</li>
             ))}
           </ul>
