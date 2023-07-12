@@ -5,6 +5,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://tech-net-server-lyart.vercel.app',
   }),
+  tagTypes: ['comment'],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => '/products',
@@ -18,6 +19,11 @@ export const api = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['comment'],
+    }),
+    getComment: builder.query({
+      query: (id) => `/comment/${id}`,
+      providesTags: ['comment'],
     }),
   }),
 });
@@ -26,4 +32,5 @@ export const {
   useGetProductsQuery,
   useGetSingleProductQuery,
   usePostCommentMutation,
+  useGetCommentQuery,
 } = api;
