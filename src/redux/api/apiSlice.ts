@@ -10,6 +10,13 @@ export const api = createApi({
     getSingleProduct: builder.query({
       query: (id) => `/product/${id}`,
     }),
+    postComment: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/comment/${id}`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
