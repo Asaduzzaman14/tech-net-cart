@@ -1,6 +1,6 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
-import { useGetProductsQuery } from '@/redux/api/apiSlice';
+import { useGetProductsQuery, useGetSingleProductQuery } from '@/redux/api/apiSlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { IProduct } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
@@ -8,6 +8,10 @@ import { useParams } from 'react-router-dom';
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const { data: product, isLoading, error } = useGetSingleProductQuery(id)
+
+  console.log(product, 'this is data');
+
 
   //! Temporary code, should be replaced with redux
   // const [data, setData] = useState<IProduct[]>([]);
@@ -17,12 +21,10 @@ export default function ProductDetails() {
   //     .then((data) => setData(data));
   // }, []);
 
-  const { data: product, isLoading, error } = useGetProductsQuery(id)
-
-
   // const product = data?.find((item) => item._id === Number(id));
 
   //! Temporary code ends here
+
 
   return (
     <>
@@ -41,7 +43,7 @@ export default function ProductDetails() {
           <Button>Add to cart</Button>
         </div>
       </div>
-      <ProductReview />
+      <ProductReview id={id!} />
     </>
   );
 }
