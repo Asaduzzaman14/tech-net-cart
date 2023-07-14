@@ -12,8 +12,25 @@ import {
 import { HiOutlineSearch } from 'react-icons/hi';
 import Cart from '../components/Cart';
 import logo from '../assets/images/technet-logo.png';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { signOut } from 'firebase/auth';
+import { setUser } from '@/redux/features/user/userSlice';
+import { auth } from '@/lib/firebase';
+import React from 'react';
 
 export default function Navbar() {
+
+  const { user } = useAppSelector(state => state.user)
+
+  const dispatch = useAppDispatch()
+
+  const handelLogOut = () => {
+    signOut(auth).then(() => {
+      dispatch(setUser(null))
+    })
+  }
+
+
   return (
     <nav className="w-full h-16 fixed top backdrop-blur-lg z-10">
       <div className="h-full w-full bg-white/60">
@@ -63,12 +80,27 @@ export default function Navbar() {
                     <DropdownMenuItem className="cursor-pointer">
                       Billing
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      Team
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      Subscription
-                    </DropdownMenuItem>
+                    {user.email &&
+                      <>
+                        <Link to="signup">
+                          <DropdownMenuItem className="cursor-pointer">
+                            signup
+                          </DropdownMenuItem>
+                        </Link>
+                        <Link to="login">
+                          <DropdownMenuItem className="cursor-pointer">
+                            login
+                          </DropdownMenuItem>
+                        </Link>
+                      </>
+                    }
+                    {user.email &&
+                      <>
+                        <DropdownMenuItem onClick={() => handelLogOut()} className="cursor-pointer">
+                          logOut
+                        </DropdownMenuItem>
+                      </>
+                    }
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>

@@ -1,6 +1,6 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
-import { useGetProductsQuery, useGetSingleProductQuery } from '@/redux/api/apiSlice';
+import { useGetSingleProductQuery } from '@/redux/features/products/productApi';
 import { useAppDispatch } from '@/redux/hooks';
 import { IProduct } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
